@@ -1,0 +1,16 @@
+Copyright © 2026 Eduardo Domínguez Reyes.
+Todos los derechos reservados.
+
+Este software, incluyendo su código fuente, diseño, estructura, interfaz,
+componentes y documentación asociada, es propiedad exclusiva de Eduardo Domínguez.
+
+No se concede permiso para copiar, reproducir, modificar, distribuir,
+publicar, sublicenciar, vender, transferir o utilizar públicamente este software,
+total o parcialmente, por ningún medio, sin autorización previa y por escrito
+del titular.
+
+Este sistema está destinado exclusivamente a uso interno autorizado.
+Cualquier uso no autorizado podrá constituir una infracción a los derechos
+de autor y a la legislación aplicable en materia de propiedad intelectual.
+
+El software se proporciona "tal cual", sin garantía de ningún tipo.

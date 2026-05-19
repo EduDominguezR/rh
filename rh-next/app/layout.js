@@ -1,8 +1,8 @@
-import "./globals.css";
+import './globals.css';
 
 export const metadata = {
-  title: "RH",
-  description: "Proyecto RH migrado a Next.js",
+  title: 'SICOMP',
+  description: 'Compatibilidad laboral',
 };
 
 export default function RootLayout({ children }) {
