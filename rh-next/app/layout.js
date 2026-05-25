@@ -1,4 +1,5 @@
 import './globals.css';
+import UiProvider from '../components/UiProvider';
 
 export const metadata = {
   title: 'SICOMP',
@@ -9,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body suppressHydrationWarning={true}>
-        {children}
+        <UiProvider>{children}</UiProvider>
       </body>
     </html>
   );

@@ -8,17 +8,25 @@ import { useEffect, useState } from 'react';
 
 export default function PlazasPage() {
   const [plazas, setPlazas] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(20);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [q, setQ] = useState('');
 
   useEffect(() => {
     async function fetchPlazas() {
       try {
         setLoading(true);
-        const res = await fetch('/plazas/api');
+        const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+        if (q) params.set('q', q);
+        const res = await fetch(`/plazas/api?${params.toString()}`);
         if (!res.ok) throw new Error('Error al cargar plazas');
-        const data = await res.json();
+        const json = await res.json();
+        const data = json.data ?? json;
         setPlazas(data);
+        setTotal(json.meta?.total ?? 0);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -26,13 +34,19 @@ export default function PlazasPage() {
       }
     }
     fetchPlazas();
-  }, []);
+  }, [page, limit, q]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Topbar title="Plazas" />
       <main className="p-6">
-        <SearchBar />
+        <div className="flex gap-4 items-center">
+          <SearchBar value={q} onChange={setQ} placeholder="Buscar plazas..." />
+          <div className="ml-auto flex items-center gap-3">
+            <a href="/plazas/new" className="rounded bg-green-600 px-3 py-1 text-white">Agregar</a>
+            <div>Página {page} / {Math.max(1, Math.ceil(total / limit) || 1)}</div>
+          </div>
+        </div>
         <TableContainer
           title="Plazas"
           subtitle="Listado general"
@@ -65,6 +79,10 @@ export default function PlazasPage() {
             ))
           )}
         </TableContainer>
+        <div className="flex gap-2 justify-center mt-4">
+          <button className="px-3 py-1 border rounded" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
+          <button className="px-3 py-1 border rounded" onClick={() => setPage((p) => p + 1)} disabled={page * limit >= total}>Next</button>
+        </div>
       </main>
     </div>
   );

@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    env_file: .env.local
+    environment:
+      # Si no pones MYSQL_ROOT_PASSWORD en .env.local, se usará 'secret' por defecto
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
+      # Permitir contraseña vacía si se setea MYSQL_ROOT_PASSWORD como vacío en .env.local
+      MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD:-yes}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-gestion_trabajadores}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

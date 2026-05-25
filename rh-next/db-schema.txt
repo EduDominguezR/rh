@@ -1,0 +1,47 @@
+Schema dump for database: gestion_trabajadores
+
+Table: autoridades
+Columns:
+  - autoridad_1: varchar(100) NOT NULL KEY=PRI
+  - nombre_autoridad_1: varchar(150) NULL DEFAULT=NULL
+  - puesto_1: varchar(150) NULL DEFAULT=NULL
+  - nombre_plantel_1: varchar(150) NULL DEFAULT=NULL
+  - autoridad_2: varchar(100) NULL DEFAULT=NULL
+  - nombre_autoridad_2: varchar(150) NULL DEFAULT=NULL
+  - puesto_2: varchar(150) NULL DEFAULT=NULL
+  - nombre_plantel_2: varchar(150) NULL DEFAULT=NULL
+Table: compatibilidad
+Columns:
+  - temporalidad_inicio: date NOT NULL KEY=PRI
+  - tipo_de_movimiento: int(11) NOT NULL KEY=PRI
+  - Tiempo_de_Traslado: varchar(100) NULL DEFAULT=NULL
+  - Fecha_de_Creacion: date NULL DEFAULT=NULL
+  - temporalidad_fin: date NULL DEFAULT=NULL
+  - Ciudad: varchar(100) NULL DEFAULT=NULL
+  - Ubicacion: varchar(255) NULL DEFAULT=NULL
+  - Horario: varchar(100) NULL DEFAULT=NULL
+  - autoridad_ref: varchar(100) NULL KEY=MUL DEFAULT=NULL
+  - id_trabajador: int(11) NULL KEY=MUL DEFAULT=NULL
+  - plaza_activa: varchar(50) NULL KEY=MUL DEFAULT=NULL
+Table: plaza
+Columns:
+  - CD_trabajo: varchar(50) NOT NULL KEY=PRI
+  - clave_presupuestal: varchar(150) NULL DEFAULT=NULL
+  - categoria: varchar(100) NULL DEFAULT=NULL
+  - salario: decimal(10,2) NULL DEFAULT=NULL
+  - des_categoria: varchar(255) NULL DEFAULT=NULL
+Table: plazas
+Columns:
+  - id: int(11) NOT NULL KEY=PRI auto_increment
+  - cdTrabajo: varchar(50) NULL DEFAULT=NULL
+  - clavePresupuestal: varchar(255) NULL DEFAULT=NULL
+  - categoria: varchar(100) NULL DEFAULT=NULL
+  - descripcion: text NULL DEFAULT=NULL
+  - salario: varchar(50) NULL DEFAULT=NULL
+Table: trabajadores
+Columns:
+  - ID_Trabajador: int(11) NOT NULL KEY=PRI auto_increment
+  - apPaterno: varchar(100) NOT NULL
+  - apMaterno: varchar(100) NOT NULL
+  - nombre: varchar(100) NOT NULL
+  - RFC: varchar(20) NOT NULL KEY=UNI
