@@ -48,3 +48,34 @@ El usuario entra al dashboard, navega con el sidebar y llega al módulo de compa
 ## Nota final
 
 Este proyecto no es una migración de un panel administrativo hecho en HTML estático a Next.js; es una migración de un formato de Excel a una página web. [web:62][web:74]
+
+## Quick start (rápido)
+
+Para que tus compañeros puedan levantar el proyecto localmente y empezar a colaborar:
+
+- Entra en la carpeta principal del frontend:
+
+```
+cd rh-next
+```
+
+- Instala dependencias:
+
+```
+npm install
+```
+
+- Ejecuta en modo desarrollo:
+
+```
+npm run dev
+```
+
+La aplicación se sirve por defecto en `http://localhost:3000`.
+
+Si el equipo necesita acceso a la base de datos (opcional), hay scripts de ayuda en `rh-next`:
+
+- `npm run seed-db` — pobla la base de datos con datos de ejemplo (requiere MySQL/MariaDB disponible y accesible según `rh-next/utils/db.js`).
+- `npm run test-db` — ejecuta `test-db.js` para comprobar la conexión a la base de datos.
+
+Para más detalles sobre cómo contribuir, ver `CONTRIBUTING.md`.
