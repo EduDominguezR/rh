@@ -1,61 +1,74 @@
+"use client";
+
 import Topbar from '../../components/Topbar';
 import SearchBar from '../../components/SearchBar';
 import TableContainer from '../../components/TableContainer';
 import Badge from '../../components/Badge';
 import ActionButtons from '../../components/ActionButtons';
-import { trabajadores } from '../../data/trabajadoresData';
+import { useEffect, useState } from 'react';
 
 export default function TrabajadoresPage() {
-  return (
-    <Topbar
-      title="Trabajadores"
-      subtitle="SICOMP · Catálogos · Trabajadores"
-      actions={
-        <ActionButtons
-          buttons={[
-            { label: 'Agregar', onClick: true, variant: 'green' },
-            { label: 'Exportar', onClick: true, variant: 'light' },
-          ]}
-        />
+  const [trabajadores, setTrabajadores] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchTrabajadores() {
+      try {
+        setLoading(true);
+        const res = await fetch('/trabajadores/api');
+        if (!res.ok) throw new Error('Error al cargar trabajadores');
+        const data = await res.json();
+        setTrabajadores(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    >
-      <TableContainer
-        toolbar={<SearchBar placeholder="Buscar por nombre o RFC" />}
-        columns={[
-          'ID',
-          'Nombre',
-          'Ap. Paterno',
-          'Ap. Materno',
-          'RFC',
-          'Estatus',
-          'Acciones',
-        ]}
-      >
-        {trabajadores.map((item) => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.nombre}</td>
-            <td>{item.apellidoPaterno}</td>
-            <td>{item.apellidoMaterno}</td>
-            <td>{item.rfc}</td>
-            <td>
-              <Badge color={item.estatusColor}>{item.estatus}</Badge>
-            </td>
-            <td>
-              <ActionButtons
-                buttons={[
-                  {
-                    label: 'Editar',
-                    onClick: true,
-                    variant: 'light',
-                    small: true,
-                  },
-                ]}
-              />
-            </td>
-          </tr>
-        ))}
-      </TableContainer>
-    </Topbar>
+    }
+    fetchTrabajadores();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Topbar title="Trabajadores" />
+      <main className="p-6">
+        <SearchBar />
+        <TableContainer
+          title="Trabajadores"
+          subtitle="Listado general"
+          columns={['Nombre', 'Apellido paterno', 'Apellido materno', 'RFC', 'Estatus', 'Acciones']}
+        >
+          {loading ? (
+            <tr>
+              <td colSpan="6" className="p-4 text-center">Cargando...</td>
+            </tr>
+          ) : error ? (
+            <tr>
+              <td colSpan="6" className="p-4 text-center text-red-600">{error}</td>
+            </tr>
+          ) : trabajadores.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="p-4 text-center">Sin registros</td>
+            </tr>
+          ) : (
+            trabajadores.map((t) => (
+              <tr key={t.id}>
+                <td className="p-2">{t.nombre}</td>
+                <td className="p-2">{t.apellidoPaterno}</td>
+                <td className="p-2">{t.apellidoMaterno}</td>
+                <td className="p-2">{t.rfc}</td>
+                <td className="p-2">
+                  <Badge color={t.estatusColor}>{t.estatus}</Badge>
+                </td>
+                <td className="p-2">
+                  <ActionButtons id={t.id} />
+                </td>
+              </tr>
+            ))
+          )}
+        </TableContainer>
+      </main>
+    </div>
   );
 }

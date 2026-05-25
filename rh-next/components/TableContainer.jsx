@@ -4,7 +4,13 @@ export default function TableContainer({
   toolbar,
   columns = [],
   children,
+  loading = false,
+  error = null,
+  emptyMessage = 'Sin registros',
+  colSpan,
 }) {
+  const span = colSpan || columns.length || 1;
+
   return (
     <section className="panel">
       {(title || subtitle) && (
@@ -16,11 +22,7 @@ export default function TableContainer({
         </div>
       )}
 
-      {toolbar && (
-        <div className="toolbar">
-          {toolbar}
-        </div>
-      )}
+      {toolbar && <div className="toolbar">{toolbar}</div>}
 
       <div className="table-wrap">
         <table>
@@ -32,7 +34,21 @@ export default function TableContainer({
             </tr>
           </thead>
           <tbody>
-            {children}
+            {loading ? (
+              <tr>
+                <td colSpan={span}>Cargando...</td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={span}>{error}</td>
+              </tr>
+            ) : children ? (
+              children
+            ) : (
+              <tr>
+                <td colSpan={span}>{emptyMessage}</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

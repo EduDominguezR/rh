@@ -1,4 +1,4 @@
-import mariadb from 'mariadb';
+const mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
   host: process.env.DB_HOST,
@@ -6,7 +6,7 @@ const pool = mariadb.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: Number(process.env.DB_PORT || 3306),
-  connectionLimit: 10
+  connectionLimit: 10,
 });
 
-export default pool;
+module.exports = pool;
